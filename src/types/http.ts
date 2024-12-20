@@ -1,5 +1,16 @@
 import { APIGatewayProxyEvent, APIGatewayProxyEventV2, APIGatewayProxyResult, APIGatewayProxyResultV2 } from 'aws-lambda'
 
+export enum HttpMethod {
+    'ANY' = 'ANY',
+    'GET' = 'GET',
+    'POST' = 'POST',
+    'PUT' = 'PUT',
+    'DELETE' = 'DELETE',
+    'HEAD' = 'HEAD',
+    'PATCH' = 'PATCH',
+    'OPTIONS' = 'OPTIONS',
+}
+
 export interface ApiGatewayProxyEvent<T = any> extends Omit<APIGatewayProxyEvent, 'body'> {
     body: T
 }

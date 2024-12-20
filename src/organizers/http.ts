@@ -1,8 +1,8 @@
-import { ApiGatewayProxyEvent, ApiGatewayProxyEventV2, ApiGatewayProxyResult, ApiGatewayProxyResultV2 } from '../types/http'
+import { ApiGatewayProxyEvent, ApiGatewayProxyEventV2, ApiGatewayProxyResult, ApiGatewayProxyResultV2, HttpMethod } from '../types/http'
 import { CloudomiumLambda } from './_lambda'
 import { ErrorHandler, Handler } from '../types/middleware'
-import { HttpMethod, ResourceType } from '../types/aws'
 import { LambdaContext } from '../types/lambda'
+import { ResourceType } from '../types/aws'
 
 /**
  * Lambda organizer with middleware support for HTTP events
@@ -48,7 +48,7 @@ export class HttpLambda<
                 }
             }
 
-            let response: CR = { statusCode: 204 } as CR
+            let response = { statusCode: 204 } as CR
             try {
                 const result = await handler(event, context)
                 if (result) response = result

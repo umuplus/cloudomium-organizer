@@ -1,5 +1,6 @@
 import { ErrorHandler, Middleware } from '../types/middleware'
-import { LambdaProps, ResourceType } from '../types/aws'
+import { LambdaProps } from '../types/lambda';
+import { ResourceType } from '../types/aws'
 
 /**
  * Lambda organizer with middleware support
