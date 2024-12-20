@@ -70,24 +70,3 @@ export const ResourceType = {
 }
 
 export type ResourceType = typeof ResourceType
-
-export interface LambdaProps {
-    runtime: string
-    timeout: number
-    memorySize: number
-    handler: string
-    environment?: Record<string, string>
-    layers?: any[]
-    logRetention: number
-}
-
-export enum HttpMethod {
-    'ANY' = 'ANY',
-    'GET' = 'GET',
-    'POST' = 'POST',
-    'PUT' = 'PUT',
-    'DELETE' = 'DELETE',
-    'HEAD' = 'HEAD',
-    'PATCH' = 'PATCH',
-    'OPTIONS' = 'OPTIONS',
-}
