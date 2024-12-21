@@ -3,6 +3,7 @@ import corsMiddleware from './middlewares/cors'
 import jsonBodyParserMiddleware from './middlewares/json-body-parser'
 import authMiddleware from './middlewares/auth'
 import httpValidatorMiddleware from './middlewares/http-validator'
+import s3FetchMiddleware from './middlewares/s3-fetch'
 
 export * from './organizers/http'
 export * from './organizers/kinesis'
@@ -21,4 +22,5 @@ export {
     jsonBodyParserMiddleware,
     authMiddleware,
     httpValidatorMiddleware,
+    s3FetchMiddleware,
 }

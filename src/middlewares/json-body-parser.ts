@@ -9,6 +9,7 @@ export interface JsonBodyParserMiddlewareConfig {
  * Middleware to parse the request body as JSON.
  * @param [config] Configuration object for the middleware.
  * @param [config.base64] A boolean to indicate if the body is base64 encoded.
+ * @param [config.compressed] A boolean to indicate if the body is compressed.
  * @returns A middleware function that parses the request body as JSON.
  */
 export default function (config: JsonBodyParserMiddlewareConfig = {}) {

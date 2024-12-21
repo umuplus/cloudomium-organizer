@@ -51,7 +51,7 @@ While the jwt token is for authentication part, **check** function is for author
 
 ```typescript
 import jwt from 'jsonwebtoken'
-import { HttpLambda } from '@cloudomium/middleware'
+import { HttpLambda } from '@cloudomium/organizer'
 
 const handler = new HttpLambda()
     .before(authMiddleware({ jwt, secret: 'my secret', mustSignedIn: true }), (error, type) => console.error(type, error))
@@ -73,7 +73,7 @@ This middleware adds a simple CORS support to the response.
 | credentials | boolean | false | flag to allow credentials |
 
 ```typescript
-import { HttpLambda } from '@cloudomium/middleware'
+import { HttpLambda } from '@cloudomium/organizer'
 
 const handler = new HttpLambda()
     .before(corsMiddleware({ origins: ['http://localhost:9000'] }), (error, type) => console.error(type, error))
@@ -92,7 +92,7 @@ This middleware adds a support for JSON payload.
 | compressed | boolean | false | flag for gzip compression |
 
 ```typescript
-import { HttpLambda } from '@cloudomium/middleware'
+import { HttpLambda } from '@cloudomium/organizer'
 
 const handler = new HttpLambda()
     .before(jsonMiddleware(), (error, type) => console.error(type, error))
@@ -114,12 +114,34 @@ This middleware adds a validation support for input and / or output data
 | onError | function | false | Error handling function |
 
 ```typescript
-import { HttpLambda } from '@cloudomium/middleware'
+import { HttpLambda } from '@cloudomium/organizer'
 
 const handler = new HttpLambda()
     .before(validate({ body: z.object({ name: z.string() }) }), (error, type) => console.error(type, error))
     .execute(async (event, context) => {
         return { statusCode: 204 }
+    })
+```
+
+### S3 Fetch
+
+This middleware downloads objects from S3 and parse them accordingly right before processing S3BucketEvent
+
+| Parameter | Type | Required | Description |
+| --------- | ---- | -------- | ----------- |
+| s3.client | S3 or S3Client | true | S3 client |
+| s3.command | GetObjectCommand | true | S3's GetObjectCommand class |
+| base64 | boolean | false | flag for base64 encoding |
+| compressed | boolean | false | flag for gzip compression |
+| json | boolean | false | flag for json data |
+
+```typescript
+import { S3Lambda } from '@cloudomium/organizer'
+
+const handler = new S3Lambda()
+    .before(s3FetchMiddleware({ s3: { client, command: GetObjectCommand } }), (error, type) => console.error(type, error))
+    .execute(async (event, context) => {
+        // void
     })
 ```
 
@@ -132,7 +154,7 @@ This middleware manages the context flag for empty event loop behavior
 | wait | boolean | false | wait flag |
 
 ```typescript
-import { SqsLambda } from '@cloudomium/middleware'
+import { SqsLambda } from '@cloudomium/organizer'
 
 const handler = new HttpLambda()
     .before(callbackWaitsForEmptyEventLoopMiddleware(), (error, type) => console.error(type, error))
@@ -143,11 +165,11 @@ const handler = new HttpLambda()
 
 ## Attaching Metadata
 
-You can define various settings and attach them to your Lambda organizer by calling metadata function as following.
-These configurations might be useful for other Cloudomium libraries.
+You can define various settings and attach them to your Lambda organizer by calling helper functions as well as the metadata function as following.
+These configurations might be useful for other Cloudomium libraries such as CDK constructs.
 
 ```typescript
-import { ResourceType, SqsLambda } from '@cloudomium/middleware'
+import { ResourceType, SqsLambda } from '@cloudomium/organizer'
 
 const handler = new HttpLambda()
     .lambda('lambda_id', { memorySize: 128, timeout: 30 })
