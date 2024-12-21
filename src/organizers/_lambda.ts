@@ -2,6 +2,9 @@ import { ErrorHandler, Middleware } from '../types/middleware'
 import { LambdaProps } from '../types/lambda';
 import { ResourceType } from '../types/aws'
 
+// TODO! for invalid payloads fill up batchItemFailures
+// TODO! on the other hand, for valid payloads, trigger handler function and combine the results
+
 /**
  * Lambda organizer with middleware support
  * @class CloudomiumLambda

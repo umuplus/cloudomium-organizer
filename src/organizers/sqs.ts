@@ -4,15 +4,15 @@ import { gunzipSync } from 'zlib'
 import { LambdaContext } from '../types/lambda'
 import { ResourceType } from '../types/aws'
 import { SQSBatchResponse } from 'aws-lambda'
-import { SqsEvent, SqsEventSourceMappingProps, SqsRecord } from '../types/sqs'
+import { SqsEvent, SqsEventSourceMappingProps } from '../types/sqs'
 
 /**
  * Lambda organizer with middleware support for SQS events
- * @class HttpLambda
+ * @class SqsLambda
  * @template CE - SQS Event
  * @template CR - SQS Batch Response
  * @template CC - Context type
- * @example new HttpLambda<ApiGatewayProxyEvent, ApiGatewayProxyResult>()
+ * @example new SqsLambda<SqsEvent, SQSBatchResponse>()
  */
 export class SqsLambda<CE = SqsEvent, CR = SQSBatchResponse, CC = LambdaContext> extends CloudomiumLambda<CE, CC, CR> {
     queue(id: string, name: string) {
@@ -48,7 +48,7 @@ export class SqsLambda<CE = SqsEvent, CR = SQSBatchResponse, CC = LambdaContext>
                 // @ts-ignore
                 if (event.Records?.length) {
                     // @ts-ignore
-                    event.Records = event.Records.map((record: SqsRecord) => {
+                    event.Records = event.Records.map((record) => {
                         record.body = JSON.parse(gunzipSync(Buffer.from(record.body as string, 'base64')).toString('utf-8'))
                         return record
                     })
@@ -61,7 +61,7 @@ export class SqsLambda<CE = SqsEvent, CR = SQSBatchResponse, CC = LambdaContext>
                 if (onError) return onError(err)
 
                 // @ts-ignore
-                response.batchItemFailures.push(...event.Records.map((record: SqsRecord) => ({ itemIdentifier: record.messageId })))
+                response.batchItemFailures.push(...event.Records.map((record) => ({ itemIdentifier: record.messageId })))
 
                 return response
             }
