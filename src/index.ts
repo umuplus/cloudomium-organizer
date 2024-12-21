@@ -7,13 +7,16 @@ import s3FetchMiddleware from './middlewares/s3-fetch'
 
 export * from './organizers/http'
 export * from './organizers/kinesis'
+export * from './organizers/s3'
 export * from './organizers/sqs'
 
 export * from './types/aws'
 export * from './types/http'
 export * from './types/jwt'
+export * from './types/kinesis'
 export * from './types/lambda'
 export * from './types/middleware'
+export * from './types/s3'
 export * from './types/sqs'
 
 export {

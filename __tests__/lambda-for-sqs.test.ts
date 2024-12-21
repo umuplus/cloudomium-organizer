@@ -34,7 +34,7 @@ test('sqs lambda handler with records', async () => {
     assert.equal(response.batchItemFailures.length, 0)
 })
 
-test.skip('sqs lambda with metadata', async () => {
+test('sqs lambda with metadata', async () => {
     const organizer = new SqsLambda().metadata('test', { a: 1 })
     const handler = organizer.execute(async (event: any, _context: any) => {
         assert.equal(event.Records[0].messageId, 'abc')
